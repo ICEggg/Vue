@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="button" value="run" @click="run()">
+		<input type="button" value="stop" @click="stop()">
+
+		<p>{{ msg }}</p>
+	</div>
+
+	<script>
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				'msg':'这是一个测试！！！',
+				'intervalid':null
+			},
+			methods:{
+				run() {
+					if(vm.intervalid!=null) return;
+					//setInterval 定时器，会返回一个定时器id：intervalid
+					vm.intervalid = setInterval(()=>{
+						var first = vm.msg.substring(0,1);
+						var second = vm.msg.substring(1);
+						vm.msg = second+first;
+					},400);
+					
+				},
+				stop() {
+					//clearInterval	关闭定时器
+					clearInterval(vm.intervalid);
+					vm.intervalid=null;
+				}
+			}
+		})
+	</script>
+
+</body>
+</html>

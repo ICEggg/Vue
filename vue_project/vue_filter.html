@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+	<div id="app">
+		<p>{{ msg | msgFormateSelf('yyyy-mm-dd') }}</p>
+	</div>
+	
+
+	<script type="text/javascript">
+		//全局过滤器
+		//type='' 防止type为underdefinded
+		Vue.filter("msgFormate",function(msg,type=''){
+			var year = msg.getFullYear();
+			var month = (msg.getMonth()+1).toString().padStart(2,'0');
+			var day = msg.getDate()
+
+			//return year+"--"+month+"--"+day;
+			
+			if(type=='yyyy-mm-dd'){
+				return `${year}-${month}-${day}`
+			}else{
+				var hour = msg.getHours()
+				var minus = msg.getMinutes()
+				var second = msg.getSeconds()
+				return `${year}-${month}-${day} ${hour}:${minus}:${second}`
+			}
+			
+		});
+
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				msg:new Date()
+			},
+			methods:{
+				
+			},
+			//私有过滤器
+			filters:{
+				msgFormateSelf : function(msg,type=''){
+					var year = msg.getFullYear();
+					var month = (msg.getMonth()+1).toString().padStart(2,'0');
+					var day = (msg.getDate()).toString().padStart(2,'0')
+					
+					if(type=='yyyy-mm-dd'){
+						return `${year}-${month}-${day}`
+					}else{
+						var hour = (msg.getHours()).toString().padStart(2,'0')
+						var minus = (msg.getMinutes()).toString().padStart(2,'0')
+						var second = (msg.getSeconds()).toString().padStart(2,'0')
+						return `${year}-${month}-${day} ${hour}:${minus}:${second}`
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>
