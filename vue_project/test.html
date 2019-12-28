@@ -14,18 +14,36 @@
 </head>
 <body>
     <div id="app">
-        <input type="text" v-model="a"> 
-        <input type="text" v-model="b"> 
-        <input type="text" v-model="d"> 
+        <comp1 :parentmsg = "msg" @func="getmsgfromson"></comp1>
+
     </div>
 
 
     <!-- 组件 -->
+    <template id="tmp1">
+        <div>
+            <h1>子组件的msg：{{msg}},父组件的msg：{{parentmsg}}</h1>
+            <input type="button" value="给父组件传值" @click="sendmsg">
+        </div>
+    </template>
 
     <script>
         
         // 组件
-
+        var comp1 = {
+            template:"#tmp1",
+            data(){
+				return {
+					msg:"son"
+				}
+			},
+			props:['parentmsg'],
+			methods:{
+				sendmsg(){
+					this.$emit('func',this.msg)
+				}
+			}
+        }
 
         //路由
 
@@ -36,10 +54,16 @@
             data:{
                 a:0,
                 b:0,
-                c:0
+                c:0,
+                msg:"aaa"
+            },
+            components:{
+                comp1
             },
             methods:{
-
+                getmsgfromson(data){
+                    console.log(data);
+                }
             },
             computed: {
                 
